@@ -47,7 +47,7 @@ class Rajaongkir extends CI_Controller
         $data_provinsi = $array_response['rajaongkir']['results'];
         echo "<option value=''>----PILIH PROVINSI----</option>";
         foreach ($data_provinsi as $key => $value) {
-            echo "<option value='".$value['province_id'].
+            echo "<option value='".$value['province'].
             "'id_provinsi='".$value['province_id']."'>".$value['province']."</option>";
         }
      }
@@ -85,7 +85,7 @@ class Rajaongkir extends CI_Controller
             $data_kota = $array_response['rajaongkir']['results'];
             echo "<option value=''>----PILIH KOTA----</option>";
             foreach ($data_kota as $key => $value) {
-                echo "<option value='".$value['city_id']."' id_kota='".$value['city_id']."'>".$value['city_name']."</option>";
+                echo "<option value='".$value['city_name']."' id_kota='".$value['city_id']."'>".$value['city_name']."</option>";
             }
         }
     }
@@ -117,7 +117,7 @@ class Rajaongkir extends CI_Controller
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "origin=". $id_kota_asal."&destination=". $id_kota ."&weight=". $berat ."&courier=" . $ekspedisi,
+        CURLOPT_POSTFIELDS => "origin=". $id_kota_asal ."&destination=". $id_kota ."&weight=". $berat ."&courier=" . $ekspedisi,
         CURLOPT_HTTPHEADER => array(
             "content-type: application/x-www-form-urlencoded",
             "key: $this->api_key"
@@ -140,7 +140,8 @@ class Rajaongkir extends CI_Controller
             $data_paket = $array_response['rajaongkir']['results'][0]['costs'];
             echo "<option value=''>----PILIH PAKET----</option>";
             foreach ($data_paket as $key => $value) {
-                echo "<option value='".$value['service']."'>";
+                echo "<option value='".$value['service']."' ongkir='". $value['cost'][0]['value']."' estimasi='".
+                 $value['cost'][0]['etd']."Hari'>";
                 echo $value['service'] ." | Rp. " . $value['cost'][0]['value'] ." | " . $value['cost'][0]['etd'] . " Hari";
                 echo "</option>";
             }
